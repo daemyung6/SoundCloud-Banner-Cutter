@@ -1,12 +1,12 @@
-import * as app from '../app.js';
+import * as app from './app.js';
 import LayerPage from './page/LayerPage.js';
 import ExportPage from './page/ExportPage.js';
-import CreatorPage from './page/CreatorPage.js';
+import AboutPage from './page/AboutPage.js';
 
 
 /**
  * 전체적인 dom을 초기화 합니다.
- * @returns {{elements: {mainCanvas: Canvas, headerItems: {text: String, onclick: Function}[], mainPage: HTMLElement}, dom: HTMLElement, pages: {layerPage: LayerPage, exportPage: page, creatorPage: page}}}
+ * @returns {{elements: {mainCanvas: Canvas, headerItems: {text: String, onclick: Function}[], mainPage: HTMLElement}, dom: HTMLElement, pages: {layerPage: LayerPage, exportPage: ExportPage, AboutPage: AboutPage}}}
     
  }}
  */
@@ -136,26 +136,27 @@ function init() {
         }
     }
 
-    let exportPage = new ExportPage();
-    let creatorPage = new CreatorPage();
+    let exportPage = new ExportPage(elements.mainCanvas);
+    let aboutPage = new AboutPage();
 
     let headerItems = [
         {
             text: 'Layers',
             onclick: () => {
-                changePage(layerPage.dom, 0)
+                changePage(layerPage, 0)
             }
         },
         {
             text: 'Export',
             onclick: () => {
-                changePage(exportPage.dom, 1)
+                exportPage.update()
+                changePage(exportPage, 1)
             }
         },
         {
-            text: 'Creator',
+            text: 'About',
             onclick: () => {
-                changePage(creatorPage.dom, 2)
+                changePage(aboutPage, 2)
             }
         },
     ]
@@ -180,42 +181,32 @@ function init() {
         return div;
     })())
 
-    let lastMainPage = layerPage.dom;
+    let lastMainPage = layerPage;
     let lastSelectHeaderItem = elements.headerItems[0];
     /**
      * 
-     * @param {HTMLElement} dom 
+     * @param {LayerPage | ExportPage | AboutPage} page 
      * @param {number} idx 
      */
-    function changePage(dom, idx) {
-        rootDom.removeChild(lastMainPage);
-        lastMainPage = dom
-        rootDom.appendChild(lastMainPage);
+    function changePage(page, idx) {
+        try {
+            rootDom.removeChild(lastMainPage.dom);
+        } catch (error) { }
+
+        lastMainPage = page
+        rootDom.appendChild(lastMainPage.dom);
         lastSelectHeaderItem.classList.remove('select');
         lastSelectHeaderItem = elements.headerItems[idx];
         lastSelectHeaderItem.classList.add('select');
-        
+
+        app.setSelectPage(page)
     }
 
 
     elements.headerItems[0].classList.add('select');
-    elements.headerItems[0].classList.remove
 
-    rootDom.appendChild(lastMainPage);
+    changePage(layerPage, 0)
 
-    console.log(234)
-    document.body.appendChild(rootDom);
-
-    // let mainPageHeightStyle = document.createElement('style');
-    // document.head.appendChild(mainPageHeightStyle);
-    // function mainPageHeightCalc() {
-    //     mainPageHeightStyle.innerText = `:root {--mainPageHeightSub: ${elements.mainCanvas.offsetHeight + elements.header.offsetHeight}px;}`;
-    // }
-
-    // window.addEventListener('resize', mainPageHeightCalc);
-    // mainPageHeightCalc();
-
-    
     return {
         elements : elements,
         dom: rootDom

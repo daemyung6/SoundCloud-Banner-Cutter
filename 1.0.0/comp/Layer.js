@@ -1,5 +1,9 @@
-import * as ErrorMsg from "../ErrorMsg.js";
+import * as ErrorMsg from "../errorMsg.js";
 
+
+/**
+ * @interface 
+ */
 export default class Layer {
     constructor() {
         this.x = 0;
@@ -7,7 +11,14 @@ export default class Layer {
         this.rotate = 0;
         this.isVisible = true;
 
+        /**
+         * @type {Object<string, HTMLElement>}
+         */
         this.elements = {};
+
+        /**
+         * @type { Array<{ type: 'layerUp' | 'layerDown' | 'layerDelete', callback: Function }> }
+         */
         this.events = [];
 
         this.dom = document.createElement('div');

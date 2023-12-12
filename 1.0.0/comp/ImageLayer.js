@@ -1,6 +1,6 @@
-import Layer from "./layer.js";
+import Layer from "./Layer.js";
 import ValueButton from "./ValueButton.js";
-import * as app from '../../app.js';
+import * as app from '../app.js';
 
 
 export default class ImageLayer extends Layer {

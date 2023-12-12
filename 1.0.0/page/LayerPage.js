@@ -1,14 +1,10 @@
 import ImageLayer from '../comp/ImageLayer.js';
-import FontLayer from '../comp/fontLayer.js';
+import ShapeLayer from '../comp/ShapeLayer.js';
+import FontLayer from '../comp/FontLayer.js';
 import ColorValue from '../comp/ColorValue.js';
 import Toggle from '../comp/Toggle.js';
+import * as app from "../app.js";
 
-/**
- * 
- * @class
- * @constructor
- * @public
- */
 export default class LayerPage {
     /**
      * 
@@ -22,20 +18,28 @@ export default class LayerPage {
      * @param {onProfileSetCallback} onProfileSet 
      */
     constructor(ctx, onProfileSet) {
+        /**
+         * @type { Array<ImageLayer | FontLayer | ShapeLayer> } 
+         */
         this.layer = [];
+
+        /**
+         * @type {Object.<string, HTMLElement>}
+         */
         this.elements = {}
 
         /**
          * 
          * @type {CanvasRenderingContext2D}
-         * @public
          */
         this.ctx = ctx;
+
 
         let isPress = false;
         let lastPos = {x: 0, y: 0};
 
         ctx.canvas.addEventListener('mousedown', (e) => {
+            if(app.selectPage?.constructor.name !== 'LayerPage') { return }
             isPress = true;
             lastPos.x = e.clientX;
             lastPos.y = e.clientY;
@@ -44,7 +48,7 @@ export default class LayerPage {
             ctx.canvas.style.cursor = 'grabbing'
         })
         window.addEventListener('mousemove', (e) => {
-            if(this.lastSelectLayer && isPress) {
+            if(this.lastSelectLayer && isPress && (app.selectPage?.constructor.name === 'LayerPage')) {
                 this.lastSelectLayer.setValue(
                     'x', 
                     this.lastSelectLayer.x + (e.clientX - lastPos.x) * 2
@@ -107,6 +111,22 @@ export default class LayerPage {
                 return div;
             })())
 
+            /*
+            div.appendChild((() => {
+                let div = document.createElement('div');
+                div.classList.add('input-item');
+                div.classList.add('file');
+
+                div.innerText = 'Add Shape'
+
+                div.addEventListener('click', () => {
+                    this.addLayer('shape');
+                })
+
+                return div;
+            })())
+            */
+
             let color = new ColorValue('Background');
             this.background = color;
             color.addEvent('*', () => {
@@ -135,16 +155,21 @@ export default class LayerPage {
     }
     /**
      * 
-     * @param {'image' | 'font'} type 
+     * @param {'image' | 'font' | 'shape'} type 
      */
     addLayer(type) {
+        /**
+         * @type {ImageLayer | FontLayer | ShapeLayer}
+         */
         let layer;
         if (type === 'image') {
             layer = new ImageLayer();
         }
         if (type === 'font') {
             layer = new FontLayer();
-            
+        }
+        if (type === 'shape') {
+            layer = new ShapeLayer();
         }
 
         layer.addEvent('layerUp', () => {

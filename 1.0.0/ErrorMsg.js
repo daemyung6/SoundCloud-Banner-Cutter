@@ -6,6 +6,9 @@ export let set = {
     'layer-delete-msg': [
         'Are you sure to delete this layer?'
     ],
+    'line-delete-msg': [
+        'Are you sure to delete this line?'
+    ],
     'fail-get-os-font-list': [
         'Failed to load the list of fonts in the OS'
     ],

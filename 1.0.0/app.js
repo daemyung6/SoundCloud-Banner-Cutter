@@ -1,11 +1,17 @@
 export const canvasWidth = 1240 * 2;
 export const canvasHeight = 260 * 2;
-import init from './src/init.js';
-import ImageInput from './src/ImageInput.js';
+export const profileSize = 400;
+export const profilePadding = 60;
+import init from './init.js'; 
+import ImageInput from './ImageInput.js';
 export let elements = {};
-import * as Alert from './src/comp/Alert.js';
-import * as ErrorMsg from './src/ErrorMsg.js';
-import onfontList from './src/fontList.js';
+import * as Alert from './comp/Alert.js';
+import * as ErrorMsg from './errorMsg.js';
+import onfontList from './fontList.js';
+export let selectPage;
+export function setSelectPage(page) {
+    selectPage = page
+}
 
 
 const imageInput = new ImageInput();
@@ -36,7 +42,7 @@ if (navigator.userAgent.match(/Mac|iPhone|iPad|iPod/i)) {
     fontList = onfontList.macosfont
 }
 
-//get os font
+
 let isLocalFontsApiEnabled = (
     window.queryLocalFonts !== undefined ||
     navigator.fonts?.query !== undefined
@@ -94,3 +100,4 @@ window.onbeforeunload = function (e) {
     // For Safari
     return '';
 };
+
