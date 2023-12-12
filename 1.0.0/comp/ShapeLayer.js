@@ -2,7 +2,7 @@ import Layer from "./Layer.js";
 import ValueButton from "./ValueButton.js";
 import * as app from '../app.js';
 import ColorValue from "./ColorValue.js";
-import * as ErrorMsg from "../errorMsg.js";
+import * as ErrorMsg from "../ErrorMsg.js";
 
 const initCubeWidth = 500;
 const resetCurveDotDistance = 50;

@@ -6,7 +6,7 @@ import init from './init.js';
 import ImageInput from './ImageInput.js';
 export let elements = {};
 import * as Alert from './comp/Alert.js';
-import * as ErrorMsg from './errorMsg.js';
+import * as ErrorMsg from './ErrorMsg.js';
 import onfontList from './fontList.js';
 export let selectPage;
 export function setSelectPage(page) {
