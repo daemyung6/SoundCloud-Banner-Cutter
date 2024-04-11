@@ -140,6 +140,7 @@ a {
     cursor: pointer;
     height: 38px;
     border-bottom: unset;
+    user-select: none;
 }
 
 .root .header .header-item.select {
